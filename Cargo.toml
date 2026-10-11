@@ -1,0 +1,31 @@
+[package]
+name = "utopia-span"
+description = "Span tracing: attributes on the current span of each task, W3C trace context, and exporters to stdout, a terminal and Sentry."
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "BSD-3-Clause"
+
+[features]
+default = ["http"]
+# The default Sentry transport: HTTP/1.1 over TLS on hyper.
+http = ["dep:bytes", "dep:http-body-util", "dep:hyper", "dep:hyper-rustls", "dep:hyper-util", "dep:rustls"]
+
+[dependencies]
+getrandom = "0.3"
+php-std = { version = "0.1.0", git = "https://github.com/utopia-rs/php-std" }
+thiserror = "2"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time", "sync", "signal", "rt"] }
+
+bytes = { version = "1", optional = true }
+http-body-util = { version = "0.1", optional = true }
+hyper = { version = "1", optional = true, features = ["server", "http1", "client"] }
+hyper-rustls = { version = "0.27", optional = true, default-features = false, features = ["http1", "ring", "tls12", "webpki-roots"] }
+hyper-util = { version = "0.1", optional = true, features = ["tokio", "client-legacy", "http1"] }
+rustls = { version = "0.23", optional = true, default-features = false, features = ["ring", "std", "tls12"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time", "sync", "signal", "rt"] }
+
+[package.metadata.utopia]
+php-sync = "da0119eda7c139b8f99b13d814e5a99f9b5ac418"
